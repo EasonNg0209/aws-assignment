@@ -2,6 +2,7 @@
 # Amazon Linux 2023
 
 #!/bin/bash
+sudo su
 dnf install git -y
 git clone https://github.com/EasonNg0209/aws-live.git
 cd aws-live
