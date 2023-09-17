@@ -4,4 +4,4 @@ custompass = "Bait3273"
 customdb = "internship"
 custombucket = "ngeason-internship"
 customregion = "us-east-1"
-isEc2Instance = False
+isEc2Instance = True
