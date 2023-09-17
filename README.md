@@ -6,5 +6,5 @@ dnf install git -y
 git clone https://github.com/EasonNg0209/aws-assignment.git
 cd aws-assignment
 dnf install python-pip -y
-pip3 install flask pymysql boto3 python-dotenv
+pip3 install flask pymysql boto3 python-dotenv flask-cors
 python3 passing.py
