@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>ITP Portal</title>
+    <link rel="icon" type="image/x-icon" href="../static/assets/favicon.png" />
+    <!-- Google fonts-->
+    <link
+        href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i" rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="../static/css/styles.css" rel="stylesheet" />
+    <style>
+        /* Header styling */
+        header {
+            background-color: #343a40;
+            /* Header background color */
+            color: white;
+            /* Header text color */
+            padding: 20px 0;
+        }
+
+        /* Center-align the table horizontally */
+        table {
+            margin: 0 auto;
+            width: 95%;
+            /* Adjust as needed */
+            background-color: #fff;
+            /* Background color for the table */
+            border-collapse: collapse;
+            margin-top: 20px;
+            /* Add margin to the top for separation from header */
+            margin-bottom: 20px;
+            /* Add margin to the bottom for separation from footer */
+            border: 1px solid #ddd;
+            /* Add border to the table */
+        }
+
+        /* Style for table headers */
+        th {
+            background-color: #333;
+            /* Background color for header cells */
+            color: white;
+            /* Text color for header cells */
+            padding: 15px;
+            /* Padding for header cells */
+            text-align: center;
+            /* Center align the content horizontally */
+        }
+
+        /* Style for table data cells */
+        td {
+            padding: 10px;
+            /* Padding for data cells */
+            vertical-align: middle;
+            /* Center align the content vertically */
+            text-align: center;
+            /* Center align the content horizontally */
+            border-right: 1px solid #ddd;
+            /* Add a right border to separate columns */
+        }
+
+        td:last-child {
+            border-right: none;
+            /* Remove the right border for the last column */
+        }
+
+        /* Style for odd rows (optional) */
+        tr:nth-child(odd) {
+            background-color: #f2f2f2;
+            /* Background color for odd rows */
+        }
+
+        /* Style for the "Apply" button */
+        button.apply-button {
+            background-color: #4CAF50;
+            /* Background color for the button */
+            color: white;
+            /* Text color for the button */
+            padding: 5px 15px;
+            /* Padding for the button */
+            border: none;
+            cursor: pointer;
+            border-radius: 20px;
+            /* Add border-radius for rounded shape */
+        }
+
+        /* Style for the button on hover (optional) */
+        button.apply-button:hover {
+            background-color: #45a049;
+        }
+
+        /* Style for the footer */
+        .footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        /* Style for the table footer row */
+        .table-footer {
+            background-color: #333;
+            color: white;
+            font-weight: bold;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+            justify-content: center;
+            /* Center vertically */
+            align-items: center;
+            /* Center horizontally */
+            margin-top: 100px;
+        }
+
+        /* Style for the modal content */
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            /* Adjust as needed for the desired width */
+            max-width: 900px;
+            /* Set a maximum width for smaller screens */
+            text-align: left;
+            /* Align content to the left */
+        }
+
+        /* Close button style (you can customize) */
+        .close {
+            position: absolute;
+            right: 20px;
+            top: 10px;
+            font-size: 30px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* Style for form labels */
+        label {
+            display: inline-block;
+            width: 150px;
+            /* Adjust the width as needed */
+            text-align: right;
+            /* Align label text to the right */
+            margin-right: 10px;
+            /* Add some margin between label and input */
+        }
+
+        /* Style for form inputs */
+        .form-control {
+            width: 70%;
+            /* Adjust the width as needed */
+            display: inline-block;
+        }
+
+        /* Style for the Save button */
+        #saveChanges {
+            margin-top: 10px;
+            /* Add margin to the top of the button */
+        }
+
+        .form-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            width: 150px;
+            /* Adjust the width as needed */
+            text-align: right;
+            margin-right: 10px;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="tel"] {
+            width: 100%;
+            /* Take up the remaining width */
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1 class="site-heading text-center text-faded d-none d-lg-block">
+            <span class="site-heading-upper text-primary mb-3">TARUMT INTERNSHIP</span>
+        </h1>
+    </header>
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-dark py-lg-4" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand text-uppercase fw-bold d-lg-none" href="index.html">Start Bootstrap</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="index.html">Home</a></li>
+                    <li class="nav-item dropdown px-lg-4">
+                        <a class="nav-link text-uppercase dropdown-toggle" href="#" id="studentDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Student</a>
+                        <div class="dropdown-menu" aria-labelledby="studentDropdown">
+                            <a class="dropdown-item" href="studentRegistration.html">Student Registration</a>
+                            <a class="dropdown-item" href="viewDetail.html">Student Profile</a>
+                            <a class="dropdown-item" href="companyApply.html">Company Apply</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown px-lg-4">
+                        <a class="nav-link text-uppercase dropdown-toggle" href="#" id="studentDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Lecture</a>
+                        <div class="dropdown-menu" aria-labelledby="studentDropdown">
+                            <a class="dropdown-item" href="manage.html">Manage Student</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown px-lg-4">
+                        <a class="nav-link text-uppercase dropdown-toggle" href="#" id="studentDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
+                        <div class="dropdown-menu" aria-labelledby="studentDropdown">
+                            <a class="dropdown-item" href="manageCompany.html">Manage Company</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown px-lg-4">
+                        <a class="nav-link text-uppercase dropdown-toggle" href="#" id="studentDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Company</a>
+                        <div class="dropdown-menu" aria-labelledby="studentDropdown">
+                            <a class="dropdown-item" href="companyRegistration.html">Company Registration</a>
+                            <a class="dropdown-item" href="companyStudent.html">Student List</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown px-lg-4">
+                        <a class="nav-link text-uppercase dropdown-toggle" href="#" id="studentDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Login</a>
+                        <div class="dropdown-menu" aria-labelledby="studentDropdown">
+                            <a class="dropdown-item" href="studentLogin.html">STUDENT</a>
+                            <a class="dropdown-item" href="lectureLogin.html">LECTURER</a>
+                            <a class="dropdown-item" href="login.html">ADMIN</a>
+                            <a class="dropdown-item" href="companyLogin.html">COMPANY</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown px-lg-4">
+                        <a class="nav-link text-uppercase" href="{{ url_for('logout') }}">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    {% if session.user.role == 'lecturer' %}
+    <table>
+        <thead>
+            <tr>
+                <th class="text-center">No</th>
+                <th class="text-center">Student Name</th>
+                <th class="text-center">Student ID</th>
+                <th class="text-center">NRIC</th>
+                <th class="text-center">Student Email</th>
+                <th class="text-center">Mobile Phone</th>
+                <th class="text-center">Progression Report</th>
+                <th class="text-center">Action</th>
+                <th class="text-center">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if students %}
+            {% for student in students %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td id="studentName_{{ student[0] }}">{{ student[3] }}</td>
+                <td id="studentID_{{ student[0] }}">{{ student[0] }}</td>
+                <td id="studentNric_{{ student[0] }}">{{ student[4] }}</td>
+                <td id="studentEmail_{{ student[0] }}">{{ student[7] }}</td>
+                <td id="studentMobileNumber_{{ student[0] }}">{{ student[8] }}</td>
+                <!-- <td>
+                    {% if report_data_list %}
+                    <ul>
+                        {% for report in report_data_list %}
+                        <li class="text-left">
+                            {% if report["url"] %}
+                            <a href="{{ report['url'] }}" download>{{ report["name"] }}</a>
+                            {% else %}
+                            {{ report["name"] }} (Not Available)
+                            {% endif %}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <p>No records found.</p>
+                    {% endif %}
+                </td> -->
+                <td>
+                    <ul id="report-list-{{ student[0] }}">
+                        <li class="text-left">Loading...</li>
+                    </ul>
+                </td>
+                <td>
+                    <form>
+                        <input type="hidden" name="studentID" value="{{ student[0] }}">
+                        <button class="btn btn-primary edit-button" data-student-id="{{ student[0] }}">Edit</button>
+                    </form>
+                </td>
+                <td>
+                    <form action="/deleteStudent" method="POST">
+                        <input type="hidden" name="studentID" value="{{ student[0] }}">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <tr>
+                <td colspan="8">No data available.</td>
+            </tr>
+            {% endif %}
+        </tbody>
+        <tfoot>
+            <tr class="table-footer" style="color: black;">
+                <td colspan="20" class="text-left">Total Rows: <span id="rowCount"></span></td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <!-- Modal dialog -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeModal">&times;</span>
+            <h2>Edit Student</h2>
+            <form id="editForm" action="/editStudent" method="POST">
+                <input type="hidden" name="studentID" id="studentIDInput" value="">
+                <div class="form-group">
+                    <label for="editedStudentName">Student Name:</label>
+                    <input type="text" id="editedStudentName" class="form-control" name="editedStudentName"
+                        placeholder="Enter student name">
+                </div>
+                <div class="form-group">
+                    <label for="editedStudentNric">Student NRIC:</label>
+                    <input type="text" id="editedStudentNric" class="form-control" name="editedStudentNric"
+                        placeholder="Enter NRIC">
+                </div>
+                <div class="form-group">
+                    <label for="editedStudentEmail">Student Email:</label>
+                    <input type="email" id="editedStudentEmail" class="form-control" name="editedStudentEmail"
+                        placeholder="Enter student email">
+                </div>
+                <div class="form-group">
+                    <label for="editedStudentMobileNumber">Mobile Phone:</label>
+                    <input type="tel" id="editedStudentMobileNumber" class="form-control"
+                        name="editedStudentMobileNumber" placeholder="Enter mobile phone">
+                </div>
+                <button type="button" id="saveChanges" class="btn btn-primary">Save</button>
+            </form>
+        </div>
+    </div>
+
+    {% else %}
+    <div class="container">
+        <!-- Content for other users (non-admin) -->
+        <h1>Access Denied</h1>
+        <p>You do not have permission to access this page.</p>
+    </div>
+    {% endif %}
+
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="..static/js/scripts.js"></script>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        // Function to update the row count
+        function updateRowCount() {
+            var rowCount = $('table tbody tr').length;
+            $('#rowCount').text(rowCount);
+        }
+
+        // Update row count after the table is fully loaded
+        window.onload = function () {
+            updateRowCount();
+        };
+
+        // Function to open the edit modal when the Edit button is clicked
+        document.addEventListener('DOMContentLoaded', function () {
+            var modal = document.getElementById('editModal');
+            var closeModal = document.getElementById('closeModal');
+            var saveChangesButton = document.getElementById('saveChanges');
+
+            function openModal(studentID) {
+                modal.style.display = 'block';
+                document.getElementById('studentIDInput').value = studentID;
+            }
+
+            // Function to close the modal
+            function closeModalFunc() {
+                modal.style.display = 'none';
+            }
+
+            // Attach event listeners to the "Edit" button and close button
+            var editButtons = document.querySelectorAll('.edit-button');
+
+            editButtons.forEach(function (button) {
+                button.addEventListener('click', function (event) {
+                    event.preventDefault(); // Prevent the default form submission
+                    var studentID = button.getAttribute('data-student-id');
+                    openModal(studentID);
+                });
+            });
+
+            closeModal.addEventListener('click', closeModalFunc);
+        });
+        document.querySelectorAll('.edit-button').forEach(function (button) {
+            button.addEventListener('click', function () {
+                // Get the student ID from the data attribute
+                var studentID = this.getAttribute('data-student-id');
+
+                // Fill the edit form with the existing data using the student ID
+                document.getElementById('editedStudentName').value = document.getElementById('studentName_' + studentID).textContent;
+                document.getElementById('editedStudentNric').value = document.getElementById('studentNric_' + studentID).textContent;
+                document.getElementById('editedStudentEmail').value = document.getElementById('studentEmail_' + studentID).textContent;
+                document.getElementById('editedStudentMobileNumber').value = document.getElementById('studentMobileNumber_' + studentID).textContent;
+
+                // Set the student ID in the hidden input field
+                document.getElementById('studentIDInput').value = studentID;
+
+                // Show the edit modal
+                document.getElementById('editModal').style.display = 'block';
+            });
+        });
+
+        // Function to close the edit modal when the close button is clicked
+        document.getElementById('closeModal').addEventListener('click', function () {
+            document.getElementById('editModal').style.display = 'none';
+        });
+
+        // Function to handle form submission
+        document.getElementById('saveChanges').addEventListener('click', function () {
+            // Get the form data
+            var formData = new FormData(document.getElementById('editForm'));
+
+            // Send a POST request to the Flask route for editing student data
+            fetch('/editStudent', {
+                method: 'POST',
+                body: formData,
+            })
+                .then(function (response) {
+                    if (response.status === 200) {
+                        // Data has been updated successfully
+                        alert('Data has been updated successfully!');
+                        // You can close the modal or perform any other action here
+                        document.getElementById('editModal').style.display = 'none';
+                    } else {
+                        // Handle errors here
+                        alert('An error occurred while updating data.');
+                    }
+                })
+                .catch(function (error) {
+                    console.error('Error:', error);
+                });
+        });
+
+        // href link list
+        $(document).ready(function () {
+            $("tr").each(function () {
+                var studentID = $(this).find("td[id^='studentID_']").text();
+                var reportList = $('#report-list-' + studentID);
+
+                $.ajax({
+                    url: '/displayReport?studentID=' + studentID,
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        reportList.empty();
+
+                        if (data.length > 0) {
+                            $.each(data, function (index, report) {
+                                var listItem = $('<li class="text-left"></li>');
+
+                                if (report.url) {
+                                    var reportLink = $('<a href="' + report.url + '" download>' + report.name + '</a>');
+                                    listItem.append(reportLink);
+                                } else {
+                                    listItem.text(report.name + ' (Not Available)');
+                                }
+
+                                reportList.append(listItem);
+                            });
+                        } else {
+                            reportList.html('<p>No records found.</p>');
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error loading reports: " + error);
+                        reportList.html('<p>Error loading reports.</p>');
+                    }
+                });
+            });
+        });
+    </script>
+
+    <footer class="footer text-faded text-center py-5">
+        <div class="container">
+            <p class="m-0 small">Copyright &copy; TARUMT Internship Portal 2023</p>
+        </div>
+    </footer>
+</body>
+
+</html>

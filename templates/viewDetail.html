@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>ITP Portal</title>
+    <link rel="icon" type="image/x-icon" href="../static/assets/favicon.png" />
+    <!-- Google fonts-->
+    <link
+        href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i" rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="../static/css/styles.css" rel="stylesheet" />
+    <style>
+        /* Header styles with separate background color */
+        header {
+            background-color: #343a40;
+            /* Header background color */
+            color: white;
+            /* Header text color */
+            padding: 20px 0;
+        }
+
+        /* Footer styles with separate background color */
+        footer {
+            background-color: #343a40;
+            /* Footer background color */
+            color: white;
+            /* Footer text color */
+            padding: 20px 0;
+        }
+
+        /* Content styles with a different background color */
+        body {
+            background-color: #fafafa;
+            /* Content background color */
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .summary-container {
+            width: 110%;
+            /* Increase width for content */
+            border: 1px solid #ccc;
+            padding: 1rem;
+            background-color: white;
+            /* Content background color */
+            margin: 20px auto;
+            /* Center the content container */
+            text-align: left;
+            /* Left-align text */
+        }
+
+        .summary-item {
+            margin-bottom: 1rem;
+        }
+
+        .summary-item-label {
+            font-weight: bold;
+            font-size: 1.05rem;
+            /* Increase label text size */
+        }
+
+        .summary-item-value {
+            font-size: 1.05rem;
+            /* Increase value text size */
+        }
+
+        /* Add background colors to different sections */
+        .student-detail {
+            background-color: #e9f7f4;
+            /* Light green background for student detail */
+        }
+
+        .supervisor-detail {
+            background-color: #f7e9e9;
+            /* Light red background for supervisor detail */
+        }
+
+        .company-detail {
+            background-color: #f5f5f5;
+            /* Light gray background for company detail */
+        }
+
+        /* Style for Save button (green) */
+        .btn-save {
+            background-color: #28a745 !important;
+            /* Green color */
+            color: white;
+            /* Text color */
+            padding: 15px 30px;
+            /* Increase padding for size */
+            font-size: 1.2rem;
+            /* Increase font size */
+            margin-right: 20px;
+            /* Add margin to separate buttons */
+            border: none;
+            /* Remove button border */
+            border-radius: 5px;
+            /* Add some border radius */
+            cursor: pointer;
+            /* Add pointer cursor */
+        }
+
+        /* Style for Back button (red) */
+        .btn-back {
+            background-color: #dc3545 !important;
+            /* Red color */
+            color: white;
+            /* Text color */
+            padding: 15px 30px;
+            /* Increase padding for size */
+            font-size: 1.2rem;
+            /* Increase font size */
+            border: none;
+            /* Remove button border */
+            border-radius: 5px;
+            /* Add some border radius */
+            cursor: pointer;
+            /* Add pointer cursor */
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1 class="site-heading text-center text-faded d-none d-lg-block">
+            <span class="site-heading-upper text-primary mb-3">TARUMT INTERNSHIP</span>
+        </h1>
+    </header>
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-dark py-lg-4" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand text-uppercase fw-bold d-lg-none" href="index.html">Start Bootstrap</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="index.html">Home</a></li>
+                    <li class="nav-item dropdown px-lg-4">
+                        <a class="nav-link text-uppercase dropdown-toggle" href="#" id="studentDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Student</a>
+                        <div class="dropdown-menu" aria-labelledby="studentDropdown">
+                            <a class="dropdown-item" href="studentRegistration.html">Student Registration</a>
+                            <a class="dropdown-item" href="viewDetail.html">Student Profile</a>
+                            <a class="dropdown-item" href="companyApply.html">Company Apply</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown px-lg-4">
+                        <a class="nav-link text-uppercase dropdown-toggle" href="#" id="studentDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Lecture</a>
+                        <div class="dropdown-menu" aria-labelledby="studentDropdown">
+                            <a class="dropdown-item" href="manage.html">Manage Student</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown px-lg-4">
+                        <a class="nav-link text-uppercase dropdown-toggle" href="#" id="studentDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
+                        <div class="dropdown-menu" aria-labelledby="studentDropdown">
+                            <a class="dropdown-item" href="manageCompany.html">Manage Company</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown px-lg-4">
+                        <a class="nav-link text-uppercase dropdown-toggle" href="#" id="studentDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Company</a>
+                        <div class="dropdown-menu" aria-labelledby="studentDropdown">
+                            <a class="dropdown-item" href="companyRegistration.html">Company Registration</a>
+                            <a class="dropdown-item" href="companyStudent.html">Student List</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown px-lg-4">
+                        <a class="nav-link text-uppercase dropdown-toggle" href="#" id="studentDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Login</a>
+                        <div class="dropdown-menu" aria-labelledby="studentDropdown">
+                            <a class="dropdown-item" href="studentLogin.html">STUDENT</a>
+                            <a class="dropdown-item" href="lectureLogin.html">LECTURER</a>
+                            <a class="dropdown-item" href="login.html">ADMIN</a>
+                            <a class="dropdown-item" href="companyLogin.html">COMPANY</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown px-lg-4">
+                        <a class="nav-link text-uppercase" href="{{ url_for('logout') }}">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    {% if session.user.role == 'student' %}
+    {% if student_data %}
+    <!-- Container for Student Detail -->
+    <div class="container">
+        <section class="summary-container student-detail">
+            <h2>Student Detail</h2>
+            <div class="row">
+                <!-- Left Part (Label) -->
+                <div class="col-md-6">
+                    <div class="summary-item">
+                        <span class="summary-item-label">Cohort:</span>
+                        <span class="summary-item-value" id="studentCohort">{{ student_data.cohort }}</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-item-label">Student Name:</span>
+                        <span class="summary-item-value" id="studentName">{{ student_data.studentName }}</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-item-label">Student NRIC:</span>
+                        <span class="summary-item-value" id="studentNric">{{ student_data.studentNric }}</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-item-label">Student Programme:</span>
+                        <span class="summary-item-value" id="studentProgramme">{{ student_data.studentProgramme
+                            }}</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-item-label">Student Mobile Number:</span>
+                        <span class="summary-item-value" id="studentMobileNumber">{{ student_data.studentMobileNumber
+                            }}</span>
+                    </div>
+                </div>
+                <!-- Right Part (Label) -->
+                <div class="col-md-6">
+                    <div class="summary-item">
+                        <span class="summary-item-label">Intern Session:</span>
+                        <span class="summary-item-value" id="internshipSession">{{ student_data.internshipSession
+                            }}</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-item-label">Student ID:</span>
+                        <span class="summary-item-value" id="studentID">{{ student_data.studentID }}</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-item-label">Student Gender:</span>
+                        <span class="summary-item-value" id="studentGender">{{ student_data.studentGender }}</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-item-label">Student Email:</span>
+                        <span class="summary-item-value" id="studentEmail">{{ student_data.studentEmail }}</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Container for UC Supervisor Detail -->
+    <div class="container">
+        <section class="summary-container supervisor-detail">
+            <h2>UC Supervisor Detail</h2>
+            <div class="row">
+                <!-- Left Part (Label) -->
+                <div class="col-md-6">
+                    <div class="summary-item">
+                        <span class="summary-item-label">Supervisor Name:</span>
+                        <span class="summary-item-value" id="supervisorName">{{ student_data.supervisorName }}</span>
+                    </div>
+                </div>
+                <!-- Right Part (Label) -->
+                <div class="col-md-6">
+                    <div class="summary-item">
+                        <span class="summary-item-label">Supervisor Email:</span>
+                        <span class="summary-item-value" id="supervisorEmail">{{ student_data.supervisorEmail }}</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Container for Company Detail -->
+    <form enctype="multipart/form-data" id="uploadAcceptanceForm" action="/uploadForm" method="POST">
+        <input type="hidden" name="studentID" id="studentID" value="">
+        <div class="container">
+            <section class="summary-container company-detail">
+                <h2>Company Detail</h2>
+                <div class="row">
+                <!-- Left Part (Label) -->
+                    <div class="col-md-6">
+                        <div class="summary-item">
+                            <span class="summary-item-label">Company Name:</span>
+                            <span class="summary-item-value" id="appliedCompanyName">{{ student_data.appliedCompanyName
+                            }}</span>
+                        </div>
+                        <div>
+                            <div class="summary-item">
+                                <span class="summary-item-label">Company Acceptance Form:</span>
+                                <input type="file" id="companyAcceptanceForm" name="companyAcceptanceForm">
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-item-label">Letter of Indemnity:</span>
+                                <input type="file" id="letterIndemnity" name="letterIndemnity">
+                            </div>
+                    </div>
+                    </div>
+                    <!-- Right Part (Label) -->
+                    <div class="col-md-6">
+                        <div class="summary-item">
+                            <span class="summary-item-label">Company Email:</span>
+                            <span class="summary-item-value" id="appliedCompanyEmail">{{ student_data.appliedCompanyEmail
+                                }}</span>
+                        </div>
+                        <div>
+                            <div class="summary-item">
+                                <span class="summary-item-label">Parent Acknowledgment Form:</span>
+                                <input type="file" id="acknowledgmentForm" name="acknowledgmentForm">
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-item-label">Hire Evidence:</span>
+                                <input type="file" id="hireEvidence" name="hireEvidence">
+                            </div>
+                        </div>
+                    </div>
+            </section>
+        </div>
+        <div class="container button-container">
+            <div class="text-center">
+                <button type="submit" id="saveChanges" class="btn btn-primary">Save</button>
+                <div style="margin-bottom: 20px;"></div>
+            </div>
+        </div>
+    </form>
+    {% endif %}
+
+    {% else %}
+    <div class="container">
+        <!-- Content for other users (non-admin) -->
+        <h1>Access Denied</h1>
+        <p>You do not have permission to access this page.</p>
+    </div>
+    {% endif %}
+
+    <footer class="footer text-faded text-center py-5">
+        <div class="container">
+            <p class="m-0 small">Copyright &copy; TARUMT Internship Portal 2023</p>
+        </div>
+    </footer>
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="../static/js/scripts.js" defer></script>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <!-- Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

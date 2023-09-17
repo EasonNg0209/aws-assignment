@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>ITP Portal</title>
+    <link rel="icon" type="image/x-icon" href="../static/assets/favicon.png" />
+    <!-- Google fonts-->
+    <link
+        href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i" rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="../static/css/styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Header styling */
+        header {
+            background-color: #343a40;
+            /* Header background color */
+            color: white;
+            /* Header text color */
+            padding: 20px 0;
+        }
+
+        /* Center-align the table horizontally */
+        table {
+            margin: 0;
+            /* Remove 'auto' from margin */
+            width: 130%;
+            background-color: #fff;
+            border-collapse: collapse;
+            margin-left: -165px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+        }
+
+        /* Style for table headers */
+        th {
+            background-color: #333;
+            color: white;
+            padding: 15px;
+            text-align: left;
+        }
+
+        /* Style for table data cells */
+        td {
+            padding: 10px;
+            vertical-align: top;
+        }
+
+        /* Style for odd rows (optional) */
+        tr:nth-child(odd) {
+            background-color: #f2f2f2;
+        }
+
+        /* Add a border between table columns */
+        td:not(:last-child) {
+            border-right: 1px solid #ddd;
+        }
+
+        /* Style for the "Apply" button */
+        button.apply-button {
+            background-color: #4CAF50;
+            /* Background color for the button */
+            color: white;
+            /* Text color for the button */
+            padding: 5px 15px;
+            /* Padding for the button */
+            border: none;
+            cursor: pointer;
+            border-radius: 20px;
+            /* Add border-radius for rounded shape */
+        }
+
+        /* Style for the button on hover (optional) */
+        button.apply-button:hover {
+            background-color: #45a049;
+        }
+
+        /* Style for the footer */
+        .footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        /* Style for the table footer row */
+        .table-footer {
+            background-color: #333;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div class="header-container">
+                <h1 class="site-heading text-center text-faded d-none d-lg-block">
+                    <span class="site-heading-upper text-primary mb-3">TARUMT INTERNSHIP</span>
+                </h1>
+            </div>
+        </div>
+    </header>
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-dark py-lg-4" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand text-uppercase fw-bold d-lg-none" href="index.html">Start Bootstrap</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="index.html">Home</a></li>
+                    <li class="nav-item dropdown px-lg-4">
+                        <a class="nav-link text-uppercase dropdown-toggle" href="#" id="studentDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Student</a>
+                        <div class="dropdown-menu" aria-labelledby="studentDropdown">
+                            <a class="dropdown-item" href="studentRegistration.html">Student Registration</a>
+                            <a class="dropdown-item" href="viewDetail.html">Student Profile</a>
+                            <a class="dropdown-item" href="companyApply.html">Company Apply</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown px-lg-4">
+                        <a class="nav-link text-uppercase dropdown-toggle" href="#" id="studentDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Lecture</a>
+                        <div class="dropdown-menu" aria-labelledby="studentDropdown">
+                            <a class="dropdown-item" href="manage.html">Manage Student</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown px-lg-4">
+                        <a class="nav-link text-uppercase dropdown-toggle" href="#" id="studentDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
+                        <div class="dropdown-menu" aria-labelledby="studentDropdown">
+                            <a class="dropdown-item" href="manageCompany.html">Manage Company</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown px-lg-4">
+                        <a class="nav-link text-uppercase dropdown-toggle" href="#" id="studentDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Company</a>
+                        <div class="dropdown-menu" aria-labelledby="studentDropdown">
+                            <a class="dropdown-item" href="companyRegistration.html">Company Registration</a>
+                            <a class="dropdown-item" href="companyStudent.html">Student List</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown px-lg-4">
+                        <a class="nav-link text-uppercase dropdown-toggle" href="#" id="studentDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Login</a>
+                        <div class="dropdown-menu" aria-labelledby="studentDropdown">
+                            <a class="dropdown-item" href="studentLogin.html">STUDENT</a>
+                            <a class="dropdown-item" href="lectureLogin.html">LECTURER</a>
+                            <a class="dropdown-item" href="login.html">ADMIN</a>
+                            <a class="dropdown-item" href="companyLogin.html">COMPANY</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown px-lg-4">
+                        <a class="nav-link text-uppercase" href="{{ url_for('logout') }}">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    {% if session.user.role == 'student' %}
+    <div class="container">
+        <table>
+            <thead>
+                <tr>
+                    <th class="text-center">No</th>
+                    <th class="text-center">Company Name</th>
+                    <th class="text-center">Company Contact</th>
+                    <th class="text-center">Company Address</th>
+                    <th class="text-center">Company Website</th>
+                    <th class="text-center">Company Email</th>
+                    <th class="text-center">Wage Allowance</th>
+                    <th class="text-center">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if apply %}
+                {% for company in apply %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td class="text-center" id="archiveCompanyName">{{ company[1] }}</td>
+                    <td class="text-center" id="archiveCompanyMobileNumber">{{ company[2] }}</td>
+                    <td class="text-center" id="archiveCompanyAddress">{{ company[3] }}</td>
+                    <td class="text-center" id="archiveCompanyWebsite">{{ company[4] }}</td>
+                    <td class="text-center" id="archiveCompanyEmail">{{ company[5] }}</td>
+                    <td class="text-center" id="archiveCompanyWage">RM {{ company[6] }}</td>
+                    <td>
+                        <form action="/studentApply" method="POST" onsubmit="return false;">
+                            <input type="hidden" name="studentID" value="{{ session.user.studentID }}" />
+                            <input type="hidden" name="companyID" value="{{ company[0] }}" />
+                            <button type="button" class="btn btn-success apply-button"
+                                data-company-id="{{ company[0] }}">Apply</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+                {% else %}
+                <!-- Handle the case where 'companies' list is empty -->
+                <tr>
+                    <td colspan="8">No data available.</td>
+                </tr>
+                {% endif %}
+            </tbody>
+            <!-- Table footer row -->
+            <tfoot>
+                <tr class="table-footer" style="color: black;">
+                    <td colspan="20" class="text-left">Total Rows: <span id="rowCount"></span></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    {% else %}
+    <div class="container">
+        <!-- Content for other users (non-admin) -->
+        <h1>Access Denied</h1>
+        <p>You do not have permission to access this page.</p>
+    </div>
+    {% endif %}
+
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="..static/js/script.js"></script>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        // Function to update the row count
+        function updateRowCount() {
+            var rowCount = $('table tbody tr').length;
+            $('#rowCount').text(rowCount);
+        }
+
+        // Update row count after the table is fully loaded
+        window.onload = function () {
+            updateRowCount();
+        };
+        $(document).ready(function () {
+            // Get all the "Apply" buttons by their class
+            const applyButtons = document.querySelectorAll('.apply-button');
+
+            applyButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const studentID = '{{ session.user.studentID }}';
+                    const companyID = this.getAttribute('data-company-id');
+                    const applyButton = this;
+
+                    // Send an AJAX request to the server
+                    $.ajax({
+                        type: 'POST',
+                        url: '/studentApply',
+                        data: {
+                            studentID: studentID,
+                            companyID: companyID
+                        },
+                        success: function (response) {
+                            if (response === 'Applied') {
+                                // If the response is 'Applied', disable the button
+                                applyButton.textContent = 'Applied';
+                                applyButton.setAttribute('disabled', 'disabled');
+                            }
+                        },
+                        error: function (error) {
+                            // Handle errors here if needed
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+
+    <footer class="footer text-faded text-center py-5">
+        <div class="container">
+            <p class="m-0 small">Copyright &copy; TARUMT Internship Portal 2023</p>
+        </div>
+    </footer>
+
+</body>
+
+</html>
