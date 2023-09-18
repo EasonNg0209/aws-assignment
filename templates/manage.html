@@ -206,7 +206,7 @@
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-dark py-lg-4" id="mainNav">
         <div class="container">
-            <a class="navbar-brand text-uppercase fw-bold d-lg-none" href="index.html">Start Bootstrap</a>
+            <a class="navbar-brand text-uppercase fw-bold d-lg-none" href="index.html">TARUMT INTERNSHIP</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
@@ -273,6 +273,7 @@
                 <th class="text-center">Student Email</th>
                 <th class="text-center">Mobile Phone</th>
                 <th class="text-center">Progression Report</th>
+                <th class="text-center">Marks</th>
                 <th class="text-center">Action</th>
                 <th class="text-center">Action</th>
             </tr>
@@ -287,27 +288,17 @@
                 <td id="studentNric_{{ student[0] }}">{{ student[4] }}</td>
                 <td id="studentEmail_{{ student[0] }}">{{ student[7] }}</td>
                 <td id="studentMobileNumber_{{ student[0] }}">{{ student[8] }}</td>
-                <!-- <td>
-                    {% if report_data_list %}
-                    <ul>
-                        {% for report in report_data_list %}
-                        <li class="text-left">
-                            {% if report["url"] %}
-                            <a href="{{ report['url'] }}" download>{{ report["name"] }}</a>
-                            {% else %}
-                            {{ report["name"] }} (Not Available)
-                            {% endif %}
-                        </li>
-                        {% endfor %}
-                    </ul>
-                    {% else %}
-                    <p>No records found.</p>
-                    {% endif %}
-                </td> -->
                 <td>
                     <ul id="report-list-{{ student[0] }}">
                         <li class="text-left">Loading...</li>
                     </ul>
+                </td>
+                <td>
+                    <form>
+                        <input type="hidden" name="studentID" value="{{ student[0] }}">
+                        <button class="btn btn-primary add-button add-mark-button"
+                            data-student-id="{{ student[0] }}">Add Mark</button>
+                    </form>
                 </td>
                 <td>
                     <form>
@@ -335,6 +326,24 @@
             </tr>
         </tfoot>
     </table>
+
+    <!-- Add Mark Modal -->
+    <div id="addModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeAddModal">&times;</span>
+            <h2>Add Mark</h2>
+            <form id="addForm" action="/evaluateReport" method="POST">
+                <input type="hidden" name="studentID" id="studentIDInput" value="">
+                <div class="form-group">
+                    <label for="internshipResult">Internship Result:</label>
+                    <input type="text" id="internshipResult" class="form-control" name="internshipResult"
+                        placeholder="Enter Mark">
+                </div>
+                <button type="button" id="saveAddChanges" class="btn btn-primary">Save</button>
+            </form>
+        </div>
+    </div>
+
 
     <!-- Modal dialog -->
     <div id="editModal" class="modal">
@@ -485,6 +494,7 @@
             $("tr").each(function () {
                 var studentID = $(this).find("td[id^='studentID_']").text();
                 var reportList = $('#report-list-' + studentID);
+                var addMarkButton = $('.add-mark-button[data-student-id="' + studentID + '"]');
 
                 $.ajax({
                     url: '/displayReport?studentID=' + studentID,
@@ -494,28 +504,120 @@
                         reportList.empty();
 
                         if (data.length > 0) {
-                            $.each(data, function (index, report) {
+                            $.each(data, function (index, reportUrl) {
+                                var labels = {
+                                    0: 'Monthly Report 1',
+                                    1: 'Monthly Report 2',
+                                    2: 'Monthly Report 3',
+                                    3: 'Monthly Final Report'
+                                };
+
+                                var label = labels[index] || 'Unknown Report';
+
                                 var listItem = $('<li class="text-left"></li>');
 
-                                if (report.url) {
-                                    var reportLink = $('<a href="' + report.url + '" download>' + report.name + '</a>');
+                                if (reportUrl) {
+                                    // Create a download link for the file
+                                    var reportLink = $('<a href="' + reportUrl + '" download>' + label + '</a>');
                                     listItem.append(reportLink);
                                 } else {
-                                    listItem.text(report.name + ' (Not Available)');
+                                    listItem.text(label + ' (Not Available)');
                                 }
 
                                 reportList.append(listItem);
                             });
+
+                            // Enable the "Add Mark" button
+                            addMarkButton.prop('disabled', false);
                         } else {
                             reportList.html('<p>No records found.</p>');
+                            // Disable the "Add Mark" button
+                            addMarkButton.prop('disabled', true);
                         }
                     },
                     error: function (xhr, status, error) {
                         console.error("Error loading reports: " + error);
                         reportList.html('<p>Error loading reports.</p>');
+                        // Disable the "Add Mark" button on error
+                        addMarkButton.prop('disabled', true);
                     }
                 });
             });
+        });
+
+        // Function to open the edit modal when the Edit button is clicked
+        document.addEventListener('DOMContentLoaded', function () {
+            var modal = document.getElementById('addModal');
+            var closeModal = document.getElementById('closeModal');
+            var saveChangesButton = document.getElementById('saveChanges');
+
+            function openModal(studentID) {
+                modal.style.display = 'block';
+                document.getElementById('studentIDInput').value = studentID;
+            }
+
+            // Function to close the modal
+            function closeModalFunc() {
+                modal.style.display = 'none';
+            }
+
+            // Attach event listeners to the "Edit" button and close button
+            var addButtons = document.querySelectorAll('.add-button');
+
+            addButtons.forEach(function (button) {
+                button.addEventListener('click', function (event) {
+                    event.preventDefault(); // Prevent the default form submission
+                    var studentID = button.getAttribute('data-student-id');
+                    openModal(studentID);
+                });
+            });
+
+            closeModal.addEventListener('click', closeModalFunc);
+        });
+
+        // Function to open the add modal when the "Add Mark" button is clicked
+        document.querySelectorAll('.add-button').forEach(function (button) {
+            button.addEventListener('click', function () {
+                // Get the student ID from the data attribute
+                var studentID = this.getAttribute('data-student-id');
+
+                // Set the student ID in the hidden input field
+                document.getElementById('studentIDInput').value = studentID;
+
+                // Show the add modal
+                document.getElementById('addModal').style.display = 'block';
+            });
+        });
+
+        // Function to close the add modal when the close button is clicked
+        document.getElementById('closeAddModal').addEventListener('click', function () {
+            document.getElementById('addModal').style.display = 'none';
+        });
+
+        // Function to handle form submission for adding marks
+        document.getElementById('saveAddChanges').addEventListener('click', function () {
+            // Get the form data
+            var formData = new FormData(document.getElementById('addForm'));
+
+            // Send a POST request to the Flask route for adding marks
+            fetch('/evaluateReport', {
+                method: 'POST',
+                body: formData,
+            })
+                .then(function (response) {
+                    if (response.status === 200) {
+                        // Data has been updated successfully
+                        alert('Data has been updated successfully!');
+                        // You can close the modal or perform any other action here
+                        document.getElementById('addModal').style.display = 'none';
+                    } else {
+                        // Handle errors here
+                        alert('An error occurred while updating data.');
+                    }
+                })
+                .catch(function (error) {
+                    console.error('Error:', error);
+                });
         });
     </script>
 
