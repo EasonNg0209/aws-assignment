@@ -85,6 +85,10 @@ def login4():
 def index():
     return render_template('index.html')
 
+@app.route('/addLecturer.html',methods=['GET','POST'])
+def adminAddLecturer():
+    return render_template('addLecturer.html')
+
 @app.route('/companyStudent.html',methods=['GET'])
 def companyStudent():
     company_data = displayCompanyInfo()
@@ -223,7 +227,7 @@ def addLecturer():
         db_conn.commit()
         print("Successfully Saved Into Database")
 
-        return "Successfully Saved Into Database"
+        return render_template('index.html')
         #If error occurs during query then we catch it into here
     except Exception as e:
         print(str(e))
@@ -835,3 +839,5 @@ def evaluateReport():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)
+
+
