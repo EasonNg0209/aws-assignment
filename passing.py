@@ -745,47 +745,47 @@ def uploadAcceptanceForm():
     if not studentID:
         return "Missing studentID parameter", 400
     
-    companyAcceptanceForm = request.files['companyAcceptanceForm']
-    if companyAcceptanceForm.filename.split('.')[1] != 'pdf':
+    monthlyReportOne = request.files['monthlyReportOne']
+    if monthlyReportOne.filename.split('.')[1] != 'pdf':
         status = "Error: File is not pdf"
         print(status)
         return status
     
-    letterIndemnity = request.files['letterIndemnity']
-    if letterIndemnity.filename.split('.')[1] != 'pdf':
+    monthlyReportTwo = request.files['monthlyReportTwo']
+    if monthlyReportTwo.filename.split('.')[1] != 'pdf':
         status = "Error: File is not pdf"
         print(status)
         return status
 
-    acknowledgmentForm = request.files['acknowledgmentForm']
-    if acknowledgmentForm.filename.split('.')[1] != 'pdf':
+    monthlyReportThree = request.files['monthlyReportThree']
+    if monthlyReportThree.filename.split('.')[1] != 'pdf':
         status = "Error: File is not pdf"
         print(status)
         return status
     
-    hireEvidence = request.files['hireEvidence']
-    if hireEvidence.filename.split('.')[1] != 'pdf':
+    monthlyFinalReport = request.files['monthlyFinalReport']
+    if monthlyFinalReport.filename.split('.')[1] != 'pdf':
         status = "Error: File is not pdf"
         print(status)
         return status
 
     fileQuery = """
     UPDATE student 
-    SET companyAcceptanceForm = %s, letterIndemnity = %s, acknowledgmentForm = %s, hireEvidence = %s 
+    SET monthlyReportOne = %s, monthlyReportTwo = %s, monthlyReportThree = %s, monthlyFinalReport = %s 
     WHERE studentID = %s
     """
     cursor = db_conn.cursor()
-    print("hi")
+    #print("hi")
     try:
-        cursor.execute(fileQuery,(companyAcceptanceForm,letterIndemnity,acknowledgmentForm,hireEvidence,studentID))
-        acceptanceFilePath = f'students/{studentID}/companyAcceptanceForm.pdf'
-        letterPath = f'students/{studentID}/letterOfIndemnity.pdf'
-        acknowledgmentPath = f'students/{studentID}/acknowledgmentForm.pdf'
-        evidencePath = f'students/{studentID}/hireEvidence.pdf'
-        uploadToS3(companyAcceptanceForm,acceptanceFilePath)
-        uploadToS3(letterIndemnity,letterPath)
-        uploadToS3(acknowledgmentForm,acknowledgmentPath)
-        uploadToS3(hireEvidence,evidencePath)
+        cursor.execute(fileQuery,(monthlyReportOne,monthlyReportTwo,monthlyReportThree,monthlyFinalReport,studentID))
+        reportOneFilePath = f'students/{studentID}/report1.pdf'
+        reportTwoFilePath = f'students/{studentID}/report2.pdf'
+        reportThreeFilePath = f'students/{studentID}/report3.pdf'
+        finalReportFilePath = f'students/{studentID}/finalreport.pdf'
+        uploadToS3(monthlyReportOne,reportOneFilePath)
+        uploadToS3(monthlyReportTwo,reportTwoFilePath)
+        uploadToS3(monthlyReportThree,reportThreeFilePath)
+        uploadToS3(monthlyFinalReport,finalReportFilePath)
         db_conn.commit()
         return render_template("index.html")
     except Exception as e:
@@ -806,16 +806,32 @@ def displayReport():
     report_data_list = []
 
     if reports:
-        report_names = ["Company Acceptance Form", "Letter of Indemnity", "Parent Acknowledgment Form", "Hire Evidence"]
+        report_names = ["Report One", "Report Two", "Report Three", "Final Report"]
 
         for i in range(len(reports)):
             report_data = {"name": report_names[i], "url": str(reports[i])}  # Ensure URL is a string
             report_data_list.append(report_data)
+            print(f"Report {i+1} URL:", reports[i]) 
             
-    print(report_data_list)
+    #print(report_data_list)
     return report_data_list
+
+@app.route('/evaluateReport',methods=['POST'])
+def evaluateReport():
+    studentID = request.form.get('studentID')
+    internshipResult = request.form.get('internshipResult')
+    addMarkQuery = "UPDATE student SET internshipResult = %s WHERE studentID = %s"
+    cursor = db_conn.cursor()
+    try:
+        cursor.execute(addMarkQuery,(internshipResult,studentID))
+        db_conn.commit()
+        return "Mark updated successfully"
+    except Exception as e:
+        print(str(e))
+        # Return a 500 error if an exception occurs
+        return "An error has occurred", 500
+    finally:
+        cursor.close()
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)
-
-
