@@ -387,22 +387,23 @@ def addStudent():
     supervisorEmail = request.form['supervisorEmail']
     appliedCompanyName = request.form['appliedCompanyName']
     appliedCompanyEmail = request.form['appliedCompanyEmail']
+    monthlyReportOne = "(NULL)"
+    monthlyReportTwo = "(NULL)"
+    monthlyReportThree = "(NULL)"
+    monthlyFinalReport = "(NULL)"
+    internshipResult = 0
 
-    # Insert Query with placeholders (use %s for both integer and float)
-    insert_query = "INSERT INTO student VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-
-    # Setup Cursor
+    insert_query = "INSERT INTO student VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
     cursor = db_conn.cursor()
     
     try:
-        # Execute Query with values as a tuple
         cursor.execute(insert_query, (
             studentID, studentCohort, internshipSession, studentName, studentNric,
             studentGender, studentProgramme, studentEmail, studentMobileNumber,
-            supervisorName, supervisorEmail, appliedCompanyName, appliedCompanyEmail
+            supervisorName, supervisorEmail, appliedCompanyName, appliedCompanyEmail,
+            monthlyReportOne, monthlyReportTwo, monthlyReportThree, monthlyFinalReport,
+            internshipResult
         ))
-
-        # Commit changes to the database
         db_conn.commit()
         cursor.close()
 
@@ -412,6 +413,7 @@ def addStudent():
         return "An error has occurred"
     finally:
         cursor.close()
+
 
 
 @app.route("/getStudent", methods=['GET'])
