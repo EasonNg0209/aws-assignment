@@ -52,7 +52,6 @@ def companyApply():
 def manage():
     students = getStudent()
     report_data_list = displayReport()
-    #return render_template('manage.html',students=students)
     return render_template('manage.html',students=students, report_data_list=report_data_list)
 
 @app.route('/companyRegistration.html', methods= ['GET','POST'])
@@ -194,7 +193,6 @@ def companylogin():
         session["user"] = {"archiveCompanyID": company["archiveCompanyID"], "role": "company"}
         flash("Login successful!", "success")
         #return "done!"
-        #print(f"Session data after login: {session}")
         return render_template("index.html")
     else:
         flash("Login failed. Company haven being approved", "error")
@@ -215,27 +213,21 @@ def addLecturer():
     lecturerUsername = request.form['lecturerUsername']
     lecturerPassword = request.form['lecturerPassword']
 
-     #Insert Query
     insert_query = "INSERT INTO lecturer_user VALUES (%s, %s, %s, %s)"
-    #Setup Cursor
     cursor = db_conn.cursor()
 
     try:
-        #Run Query
         cursor.execute(insert_query,(lecturerID,lecturerName,lecturerUsername,lecturerPassword))
-        #Save DB
         db_conn.commit()
         print("Successfully Saved Into Database")
-
         return render_template('index.html')
-        #If error occurs during query then we catch it into here
     except Exception as e:
         print(str(e))
         return "An error has occured"
     finally:
         cursor.close()
 
-
+#not being used
 @app.route("/getLecturer", methods=['GET'])
 def getLecturer():
     lecturerID = request.args.get('lecturerID')
@@ -260,7 +252,7 @@ def getLecturer():
     finally:
         cursor.close()
 
-
+#not being used
 @app.route("/addAdmin", methods=['POST'])
 def add_admin():
     admin_id = request.form['admin_id']
@@ -287,6 +279,7 @@ def add_admin():
     finally:
         cursor.close()
 
+#not being used
 @app.route("/getAdmin", methods=['GET'])
 def getAdmin():
     admin_id = request.args.get('admin_id')
@@ -324,20 +317,14 @@ def addCompany():
     company_duration = int(request.form['company_duration'])
     company_wage = float(request.form['company_wage'])
 
-    # Insert Query with placeholders (use %s for both integer and float)
     insert_query = "INSERT INTO company VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
-
-    # Setup Cursor
     cursor = db_conn.cursor()
         
     try:
-        # Execute Query with values as a tuple
         cursor.execute(insert_query, (
             company_id, company_name, company_mobileNumber, company_address, company_website,
             company_email, company_position, company_duration, company_wage
         ))
-
-        # Commit changes to the database
         db_conn.commit()
         cursor.close()
 
@@ -385,18 +372,22 @@ def addStudent():
     studentMobileNumber = request.form['studentMobileNumber']
     supervisorName = request.form['supervisorName']
     supervisorEmail = request.form['supervisorEmail']
-    appliedCompanyName = request.form['appliedCompanyName']
-    appliedCompanyEmail = request.form['appliedCompanyEmail']
+    appliedCompanyName = "-"
+    appliedCompanyEmail = "-"
     monthlyReportOne = "(NULL)"
     monthlyReportTwo = "(NULL)"
     monthlyReportThree = "(NULL)"
     monthlyFinalReport = "(NULL)"
     internshipResult = 0
 
+    # Insert Query with placeholders (use %s for both integer and float)
     insert_query = "INSERT INTO student VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+
+    # Setup Cursor
     cursor = db_conn.cursor()
     
     try:
+        # Execute Query with values as a tuple
         cursor.execute(insert_query, (
             studentID, studentCohort, internshipSession, studentName, studentNric,
             studentGender, studentProgramme, studentEmail, studentMobileNumber,
@@ -404,6 +395,8 @@ def addStudent():
             monthlyReportOne, monthlyReportTwo, monthlyReportThree, monthlyFinalReport,
             internshipResult
         ))
+
+        # Commit changes to the database
         db_conn.commit()
         cursor.close()
 
@@ -415,25 +408,15 @@ def addStudent():
         cursor.close()
 
 
-
 @app.route("/getStudent", methods=['GET'])
 def getStudent():
-    #studentID = request.args.get('studentID')
-        #Insert Query
     query = "SELECT * FROM student"
-    #Setup Cursor
     cursor = db_conn.cursor()
 
     try:
-        #Run Query
         cursor.execute(query)
         students = cursor.fetchall()
         return students
-        #Save DB
-        #db_conn.commit()
-        #print("Successfully Saved Into Database")
-        #return jsonify(result)
-        #If error occurs during query then we catch it into here
     except Exception as e:
         print(str(e))
         return "An error has occured"
@@ -446,11 +429,21 @@ def getStudentByID():
     if not studentID:
         return "Missing studentID parameter", 400
 
-    # Use a prepared statement to prevent SQL injection
+    # Query to fetch student data
     query = "SELECT * FROM student WHERE studentID = %s"
+    
+    # Query to fetch company information based on appliedCompanyID
+    companyQuery = """
+    SELECT archive_company.*
+    FROM archive_company
+    JOIN appliedCompany ON archive_company.archiveCompanyID = appliedCompany.archiveCompanyID
+    WHERE appliedCompany.studentID = %s
+    """
+
     cursor = db_conn.cursor()
     
     try:
+        # Fetch student data
         cursor.execute(query, (studentID,))
         student = cursor.fetchone()
 
@@ -468,11 +461,32 @@ def getStudentByID():
                 'studentMobileNumber': student[8],
                 'supervisorName': student[9],
                 'supervisorEmail': student[10],
-                'appliedCompanyName': student[11],
-                'appliedCompanyEmail': student[12]
+                'appliedCompanyName': student[11],  # Initial null value
+                'appliedCompanyEmail': student[12],   # Initial null value
             }
+
+            # Fetch company information if the student has applied to a company
+            cursor.execute(companyQuery, (studentID,))
+            company_data = cursor.fetchone()
+
+            if company_data:
+                # Update applied company information if available
+                applied_company_name = company_data[1]  # Update with company name
+                applied_company_email = company_data[2]  # Update with company email
+                
+                # Update student table with applied company information
+                update_query = """
+                UPDATE student
+                SET appliedCompanyName = %s, appliedCompanyEmail = %s
+                WHERE studentID = %s
+                """
+                cursor.execute(update_query, (applied_company_name, applied_company_email, studentID))
+                db_conn.commit()  # Commit the update
+
+                student_data['appliedCompanyName'] = applied_company_name
+                student_data['appliedCompanyEmail'] = applied_company_email
+
             # Return the student data as a JSON response
-            #return jsonify(student_data)
             return student_data
         else:
             # Return a 404 error if the student is not found
@@ -485,6 +499,7 @@ def getStudentByID():
     finally:
         cursor.close()
 
+
 @app.route("/deleteStudent",methods=['POST'])
 def deleteStudent():
     studentID = request.form.get('studentID')
@@ -493,7 +508,6 @@ def deleteStudent():
 
     try:
         cursor.execute(query,studentID)
-        #students = cursor.fetchone()
         db_conn.commit()
         return render_template('index.html')
     except Exception as e:
@@ -504,30 +518,21 @@ def deleteStudent():
 
 @app.route("/editStudent", methods=['POST'])
 def editStudent():
-    #data = request.get_json()  # Get JSON data from the request
     studentID = request.form.get('studentID')
     editedStudentName = request.form['editedStudentName']
     editedStudentNric = request.form['editedStudentNric']
     editedStudentEmail = request.form['editedStudentEmail']
     editedStudentMobileNumber = request.form['editedStudentMobileNumber']
 
-    # Define the SQL query to update the student data
     query = "UPDATE student SET studentName = %s, studentNric = %s,  studentEmail = %s, studentMobileNumber = %s WHERE studentID = %s"
     cursor = db_conn.cursor()
 
     try:
-        # Execute the SQL query with the provided data
         cursor.execute(query, (editedStudentName, editedStudentNric, editedStudentEmail, editedStudentMobileNumber, studentID))
-        
-        # Commit the changes to the database
         db_conn.commit()
-        
-        # Return a success message (you can customize this)
-        #return jsonify({"message": "Data has been updated successfully!"}), 200
         return render_template("index.html")
     except Exception as e:
         print(str(e))
-        # Return an error message (you can customize this)
         return jsonify({"error": "An error has occurred"}), 500
     finally:
         cursor.close()
@@ -644,7 +649,7 @@ def studentApply():
     appliedStatus = "applied"
 
     # Check if the student has already applied to this company
-    checkQuery = "SELECT * FROM appliedCompany WHERE studentID = %s AND companyID = %s"
+    checkQuery = "SELECT * FROM appliedCompany WHERE studentID = %s AND archiveCompanyID = %s"
     cursor = db_conn.cursor()
     cursor.execute(checkQuery, (studentID, companyID))
     existing_application = cursor.fetchone()
@@ -654,7 +659,7 @@ def studentApply():
         return "Applied"
 
     # Insert the new application record
-    applyQuery = "INSERT INTO appliedCompany (studentID, companyID, appliedDate, appliedStatus) VALUES (%s, %s, %s, %s)"
+    applyQuery = "INSERT INTO appliedCompany (studentID, archiveCompanyID, appliedDate, appliedStatus) VALUES (%s, %s, %s, %s)"
     try:
         cursor.execute(applyQuery, (studentID, companyID, appliedDate, appliedStatus))
         db_conn.commit()
@@ -673,7 +678,6 @@ def displayCompanyInfo():
     if not archiveCompanyID:
         return "Missing companyID parameter", 400
 
-    # Use a prepared statement to prevent SQL injection
     query = "SELECT * FROM archive_company WHERE archiveCompanyID = %s"
     cursor = db_conn.cursor()
     
@@ -682,21 +686,16 @@ def displayCompanyInfo():
         company = cursor.fetchone()
 
         if company:
-            # Convert the student data to a dictionary for JSON response
             company_data = {
                 'archiveCompanyID': company[0],
                 'archiveCompanyName': company[1],
             }
-            # Return the student data as a JSON response
-            #return jsonify(company_data)
             return company_data
         else:
-            # Return a 404 error if the student is not found
             return "Company not found", 404
 
     except Exception as e:
         print(str(e))
-        # Return a 500 error if an exception occurs
         return "An error has occurred", 500
     finally:
         cursor.close()
@@ -834,7 +833,6 @@ def evaluateReport():
         return "Mark updated successfully"
     except Exception as e:
         print(str(e))
-        # Return a 500 error if an exception occurs
         return "An error has occurred", 500
     finally:
         cursor.close()
