@@ -199,8 +199,14 @@
                         <form action="/studentApply" method="POST" onsubmit="return false;">
                             <input type="hidden" name="studentID" value="{{ session.user.studentID }}" />
                             <input type="hidden" name="companyID" value="{{ company[0] }}" />
+                            {% if company[7] == session.user.studentID %}
+                            <!-- If the student has applied, disable the button -->
+                            <button type="button" class="btn btn-success apply-button" disabled>Applied</button>
+                            {% else %}
+                            <!-- Otherwise, allow the student to apply -->
                             <button type="button" class="btn btn-success apply-button"
                                 data-company-id="{{ company[0] }}">Apply</button>
+                            {% endif %}
                         </form>
                     </td>
                 </tr>
@@ -244,6 +250,8 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script>
+        var hasApplied = false;
+
         // Function to update the row count
         function updateRowCount() {
             var rowCount = $('table tbody tr').length;
@@ -254,6 +262,7 @@
         window.onload = function () {
             updateRowCount();
         };
+
         $(document).ready(function () {
             // Get all the "Apply" buttons by their class
             const applyButtons = document.querySelectorAll('.apply-button');
@@ -264,25 +273,32 @@
                     const companyID = this.getAttribute('data-company-id');
                     const applyButton = this;
 
-                    // Send an AJAX request to the server
-                    $.ajax({
-                        type: 'POST',
-                        url: '/studentApply',
-                        data: {
-                            studentID: studentID,
-                            companyID: companyID
-                        },
-                        success: function (response) {
-                            if (response === 'Applied') {
-                                // If the response is 'Applied', disable the button
-                                applyButton.textContent = 'Applied';
-                                applyButton.setAttribute('disabled', 'disabled');
+                    // Check if the student has already applied
+                    if (!hasApplied) {
+                        // Send an AJAX request to the server
+                        $.ajax({
+                            type: 'POST',
+                            url: '/studentApply',
+                            data: {
+                                studentID: studentID,
+                                companyID: companyID
+                            },
+                            success: function (response) {
+                                if (response === 'Applied') {
+                                    // If the response is 'Applied', disable all "Apply" buttons
+                                    applyButtons.forEach(btn => {
+                                        btn.textContent = 'Applied';
+                                        btn.setAttribute('disabled', 'disabled');
+                                    });
+                                    // Update the variable to indicate the student has applied
+                                    hasApplied = true;
+                                }
+                            },
+                            error: function (error) {
+                                // Handle errors here if needed
                             }
-                        },
-                        error: function (error) {
-                            // Handle errors here if needed
-                        }
-                    });
+                        });
+                    }
                 });
             });
         });
