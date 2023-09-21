@@ -710,7 +710,7 @@ def displayStudentCompanyInfo():
     SELECT *
     FROM student AS s
     JOIN appliedCompany AS ac ON s.studentID = ac.studentID
-    WHERE ac.companyID = %s
+    WHERE ac.archiveCompanyID = %s
     """
     cursor = db_conn.cursor()
 
