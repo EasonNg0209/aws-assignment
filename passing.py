@@ -144,7 +144,7 @@ def studentlogin():
     else:
         flash("Login failed. Invalid username or password","error")
 
-    return render_template("login.html") 
+    return render_template("studentLogin.html") 
 
 @app.route("/lecturelogin",methods=['POST'])
 def lecturelogin():
@@ -170,7 +170,7 @@ def lecturelogin():
     else:
         flash("Login failed. Invalid username or password","error")
 
-    return render_template("login.html")
+    return render_template("lectureLogin.html")
 
 @app.route("/companylogin", methods=['POST'])
 def companylogin():
@@ -197,7 +197,7 @@ def companylogin():
     else:
         flash("Login failed. Company haven being approved", "error")
 
-    return render_template("login.html")
+    return render_template("companyLogin.html")
 
 @app.route('/logout', methods=['GET'])
 def logout():
@@ -380,23 +380,18 @@ def addStudent():
     monthlyFinalReport = "(NULL)"
     internshipResult = 0
 
-    # Insert Query with placeholders (use %s for both integer and float)
     insert_query = "INSERT INTO student VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-
-    # Setup Cursor
     cursor = db_conn.cursor()
     
     try:
-        # Execute Query with values as a tuple
         cursor.execute(insert_query, (
-            studentID, studentCohort, internshipSession, studentName, studentNric,
+              studentID, studentCohort, internshipSession, studentName, studentNric,
             studentGender, studentProgramme, studentEmail, studentMobileNumber,
             supervisorName, supervisorEmail, appliedCompanyName, appliedCompanyEmail,
             monthlyReportOne, monthlyReportTwo, monthlyReportThree, monthlyFinalReport,
             internshipResult
         ))
 
-        # Commit changes to the database
         db_conn.commit()
         cursor.close()
 
@@ -429,10 +424,8 @@ def getStudentByID():
     if not studentID:
         return "Missing studentID parameter", 400
 
-    # Query to fetch student data
     query = "SELECT * FROM student WHERE studentID = %s"
     
-    # Query to fetch company information based on appliedCompanyID
     companyQuery = """
     SELECT archive_company.*
     FROM archive_company
@@ -443,12 +436,10 @@ def getStudentByID():
     cursor = db_conn.cursor()
     
     try:
-        # Fetch student data
         cursor.execute(query, (studentID,))
         student = cursor.fetchone()
 
         if student:
-            # Convert the student data to a dictionary for JSON response
             student_data = {
                 'studentID': student[0],
                 'cohort': student[1],
@@ -465,14 +456,13 @@ def getStudentByID():
                 'appliedCompanyEmail': student[12],   # Initial null value
             }
 
-            # Fetch company information if the student has applied to a company
             cursor.execute(companyQuery, (studentID,))
             company_data = cursor.fetchone()
 
             if company_data:
                 # Update applied company information if available
                 applied_company_name = company_data[1]  # Update with company name
-                applied_company_email = company_data[2]  # Update with company email
+                applied_company_email = company_data[3]  # Update with company email
                 
                 # Update student table with applied company information
                 update_query = """
@@ -518,22 +508,28 @@ def deleteStudent():
 
 @app.route("/editStudent", methods=['POST'])
 def editStudent():
-    studentID = request.form.get('studentID')
-    editedStudentName = request.form['editedStudentName']
-    editedStudentNric = request.form['editedStudentNric']
-    editedStudentEmail = request.form['editedStudentEmail']
-    editedStudentMobileNumber = request.form['editedStudentMobileNumber']
-
-    query = "UPDATE student SET studentName = %s, studentNric = %s,  studentEmail = %s, studentMobileNumber = %s WHERE studentID = %s"
-    cursor = db_conn.cursor()
-
     try:
-        cursor.execute(query, (editedStudentName, editedStudentNric, editedStudentEmail, editedStudentMobileNumber, studentID))
+        studentID = request.form.get('studentID')
+        studentName = request.form.get('studentName')
+        studentNric = request.form.get('studentNric')
+        studentEmail = request.form.get('studentEmail')
+        studentMobileNumber = request.form.get('studentMobileNumber')
+
+        query = "UPDATE student SET studentName = %s, studentNric = %s, studentEmail = %s, studentMobileNumber = %s WHERE studentID = %s"
+        cursor = db_conn.cursor()
+
+        cursor.execute(query, (studentName, studentNric, studentEmail, studentMobileNumber, studentID))
         db_conn.commit()
-        return render_template("index.html")
+        
+        cursor.close()
+
+        # Redirect to the home page after successful update
+        return 'Data has been updated successfully!'
+        
     except Exception as e:
-        print(str(e))
-        return jsonify({"error": "An error has occurred"}), 500
+        print("Error:", str(e))
+        db_conn.rollback()  # Roll back changes in case of an error
+        return 'An error has occurred while updating data.'
     finally:
         cursor.close()
 
