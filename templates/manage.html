@@ -328,52 +328,51 @@
         </tfoot>
     </table>
 
+    <!-- Modal dialog -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeeditModal">&times;</span>
+            <h2>Edit Student</h2>
+            <form id="editForm" action="/editStudent" method="POST">
+                <input type="hidden" name="studentID" id="editStudentIDInput" value="">
+                <div class="form-group">
+                    <label for="studentName">Student Name:</label>
+                    <input type="text" id="studentName" class="form-control" name="studentName"
+                        placeholder="Enter student name">
+                </div>
+                <div class="form-group">
+                    <label for="studentNric">Student NRIC:</label>
+                    <input type="text" id="studentNric" class="form-control" name="studentNric"
+                        placeholder="Enter NRIC">
+                </div>
+                <div class="form-group">
+                    <label for="studentEmail">Student Email:</label>
+                    <input type="email" id="studentEmail" class="form-control" name="studentEmail"
+                        placeholder="Enter student email">
+                </div>
+                <div class="form-group">
+                    <label for="studentMobileNumber">Mobile Phone:</label>
+                    <input type="tel" id="studentMobileNumber" class="form-control"
+                        name="studentMobileNumber" placeholder="Enter mobile phone">
+                </div>
+                <button type="button" id="saveEditChangesButton" class="btn btn-primary">Save</button>
+            </form>
+        </div>
+    </div>
+
     <!-- Add Mark Modal -->
     <div id="addModal" class="modal">
         <div class="modal-content">
             <span class="close" id="closeAddModal">&times;</span>
             <h2>Add Mark</h2>
             <form id="addForm" action="/evaluateReport" method="POST">
-                <input type="hidden" name="studentID" id="studentIDInput" value="">
+                <input type="hidden" name="studentID" id="addStudentIDInput" value="">
                 <div class="form-group">
                     <label for="internshipResult">Internship Result:</label>
                     <input type="text" id="internshipResult" class="form-control" name="internshipResult"
                         placeholder="Enter Mark">
                 </div>
                 <button type="button" id="saveAddChanges" class="btn btn-primary">Save</button>
-            </form>
-        </div>
-    </div>
-
-
-    <!-- Modal dialog -->
-    <div id="editModal" class="modal">
-        <div class="modal-content">
-            <span class="close" id="closeModal">&times;</span>
-            <h2>Edit Student</h2>
-            <form id="editForm" action="/editStudent" method="POST">
-                <input type="hidden" name="studentID" id="studentIDInput" value="">
-                <div class="form-group">
-                    <label for="editedStudentName">Student Name:</label>
-                    <input type="text" id="editedStudentName" class="form-control" name="editedStudentName"
-                        placeholder="Enter student name">
-                </div>
-                <div class="form-group">
-                    <label for="editedStudentNric">Student NRIC:</label>
-                    <input type="text" id="editedStudentNric" class="form-control" name="editedStudentNric"
-                        placeholder="Enter NRIC">
-                </div>
-                <div class="form-group">
-                    <label for="editedStudentEmail">Student Email:</label>
-                    <input type="email" id="editedStudentEmail" class="form-control" name="editedStudentEmail"
-                        placeholder="Enter student email">
-                </div>
-                <div class="form-group">
-                    <label for="editedStudentMobileNumber">Mobile Phone:</label>
-                    <input type="tel" id="editedStudentMobileNumber" class="form-control"
-                        name="editedStudentMobileNumber" placeholder="Enter mobile phone">
-                </div>
-                <button type="button" id="saveChanges" class="btn btn-primary">Save</button>
             </form>
         </div>
     </div>
@@ -413,13 +412,13 @@
 
         // Function to open the edit modal when the Edit button is clicked
         document.addEventListener('DOMContentLoaded', function () {
-            var modal = document.getElementById('editModal');
-            var closeModal = document.getElementById('closeModal');
-            var saveChangesButton = document.getElementById('saveChanges');
+            var editmodal = document.getElementById('editModal');
+            var closeeditModal = document.getElementById('closeeditModal');
+            var saveEditChangesButton = document.getElementById('saveEditChangesButton');
 
             function openModal(studentID) {
                 modal.style.display = 'block';
-                document.getElementById('studentIDInput').value = studentID;
+                document.getElementById('editStudentIDInput').value = studentID;
             }
 
             // Function to close the modal
@@ -438,7 +437,7 @@
                 });
             });
 
-            closeModal.addEventListener('click', closeModalFunc);
+            closeeditModal.addEventListener('click', closeModalFunc);
         });
         document.querySelectorAll('.edit-button').forEach(function (button) {
             button.addEventListener('click', function () {
@@ -446,13 +445,13 @@
                 var studentID = this.getAttribute('data-student-id');
 
                 // Fill the edit form with the existing data using the student ID
-                document.getElementById('editedStudentName').value = document.getElementById('studentName_' + studentID).textContent;
-                document.getElementById('editedStudentNric').value = document.getElementById('studentNric_' + studentID).textContent;
-                document.getElementById('editedStudentEmail').value = document.getElementById('studentEmail_' + studentID).textContent;
-                document.getElementById('editedStudentMobileNumber').value = document.getElementById('studentMobileNumber_' + studentID).textContent;
+                document.getElementById('studentName').value = document.getElementById('studentName_' + studentID).textContent;
+                document.getElementById('studentNric').value = document.getElementById('studentNric_' + studentID).textContent;
+                document.getElementById('studentEmail').value = document.getElementById('studentEmail_' + studentID).textContent;
+                document.getElementById('studentMobileNumber').value = document.getElementById('studentMobileNumber_' + studentID).textContent;
 
                 // Set the student ID in the hidden input field
-                document.getElementById('studentIDInput').value = studentID;
+                document.getElementById('editStudentIDInput').value = studentID;
 
                 // Show the edit modal
                 document.getElementById('editModal').style.display = 'block';
@@ -460,12 +459,12 @@
         });
 
         // Function to close the edit modal when the close button is clicked
-        document.getElementById('closeModal').addEventListener('click', function () {
+        document.getElementById('closeeditModal').addEventListener('click', function () {
             document.getElementById('editModal').style.display = 'none';
         });
 
         // Function to handle form submission
-        document.getElementById('saveChanges').addEventListener('click', function () {
+        document.getElementById('saveEditChangesButton').addEventListener('click', function () {
             // Get the form data
             var formData = new FormData(document.getElementById('editForm'));
 
@@ -480,6 +479,7 @@
                         alert('Data has been updated successfully!');
                         // You can close the modal or perform any other action here
                         document.getElementById('editModal').style.display = 'none';
+                        window.location.href = 'index.html';
                     } else {
                         // Handle errors here
                         alert('An error occurred while updating data.');
@@ -546,7 +546,7 @@
             });
         });
 
-        // Function to open the edit modal when the Edit button is clicked
+        // Function to open the add modal when the add mark button is clicked
         document.addEventListener('DOMContentLoaded', function () {
             var modal = document.getElementById('addModal');
             var closeModal = document.getElementById('closeModal');
@@ -554,7 +554,7 @@
 
             function openModal(studentID) {
                 modal.style.display = 'block';
-                document.getElementById('studentIDInput').value = studentID;
+                document.getElementById('addStudentIDInput').value = studentID;
             }
 
             // Function to close the modal
@@ -583,7 +583,7 @@
                 var studentID = this.getAttribute('data-student-id');
 
                 // Set the student ID in the hidden input field
-                document.getElementById('studentIDInput').value = studentID;
+                document.getElementById('addStudentIDInput').value = studentID;
 
                 // Show the add modal
                 document.getElementById('addModal').style.display = 'block';
@@ -611,6 +611,7 @@
                         alert('Data has been updated successfully!');
                         // You can close the modal or perform any other action here
                         document.getElementById('addModal').style.display = 'none';
+                        window.location.href = 'index.html';
                     } else {
                         // Handle errors here
                         alert('An error occurred while updating data.');
